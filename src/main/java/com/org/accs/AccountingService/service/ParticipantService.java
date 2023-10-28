@@ -11,8 +11,8 @@ public class ParticipantService {
 
     private ParticipantRepository participantRepository;
 
-    public Participant getByPaymentInfo(String paymentInfo) {
-        return participantRepository.findByPaymentInfo(paymentInfo).get();
+    public Participant getByParticipantId(String participantId) {
+        return participantRepository.findByParticipantId(participantId).get();
     }
 
     public void saveParticipant(Participant participant) {

@@ -8,6 +8,7 @@ import com.org.accs.AccountingService.service.TransactionService;
 import com.org.ma.enums.MessageType;
 import com.org.ma.enums.Subject;
 import com.org.ma.model.Payment;
+import com.org.ma.model.PaymentUpdate;
 import com.org.ma.utils.Constants;
 import lombok.AllArgsConstructor;
 import org.apache.camel.Exchange;
@@ -38,6 +39,8 @@ public class MessageHandler implements Processor {
         MessageType messageType = exchange.getIn().getHeader(Constants.MESSAGE_TYPE, MessageType.class);
         if (messageType.equals(MessageType.REGULAR)) {
             handleRegularRequest(exchange);
+        } else if (messageType.equals(MessageType.INFO)) {
+            handleInfoRequest(exchange);
         } else {
             handleCancelRequest(exchange);
         }
@@ -69,8 +72,8 @@ public class MessageHandler implements Processor {
 
     private void handleCancelRequest(Exchange exchange) {
         Payment payment = exchange.getMessage(Payment.class);
-        Participant senderParticipant = participantService.getByPaymentInfo(payment.getSenderId());
-        Participant receiverParticipant = participantService.getByPaymentInfo(payment.getReceiverId());
+        Participant senderParticipant = participantService.getByParticipantId(payment.getSenderId());
+        Participant receiverParticipant = participantService.getByParticipantId(payment.getReceiverId());
         senderParticipant.setAvailable(senderParticipant.getAvailable() + payment.getAmount());
         receiverParticipant.setAvailable(receiverParticipant.getAvailable() - payment.getAmount());
         participantService.saveParticipant(receiverParticipant);
@@ -91,9 +94,18 @@ public class MessageHandler implements Processor {
         producer.send(record);
     }
 
+    private void handleInfoRequest(Exchange exchange) {
+        PaymentUpdate update = exchange.getMessage(PaymentUpdate.class);
+        participantService.saveParticipant(Participant.builder()
+                .participantId(update.getParticipantId())
+                .available(update.getAvailable())
+                .credit(update.getCredit())
+                .build());
+    }
+
     private boolean processPayment(Transaction transaction) {
-        Participant senderParticipant = participantService.getByPaymentInfo(transaction.getSenderId());
-        Participant receiverParticipant = participantService.getByPaymentInfo(transaction.getReceiverId());
+        Participant senderParticipant = participantService.getByParticipantId(transaction.getSenderId());
+        Participant receiverParticipant = participantService.getByParticipantId(transaction.getReceiverId());
         Double transactionAmount = transaction.getAmount();
         if ((senderParticipant.getAvailable() + senderParticipant.getCredit()) - transactionAmount > 0) {
             senderParticipant.setAvailable(senderParticipant.getAvailable() - transactionAmount);

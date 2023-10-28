@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface ParticipantRepository extends JpaRepository<Participant, Integer> {
 
-    Optional<Participant> findByPaymentInfo(String paymentInfo);
+    Optional<Participant> findByParticipantId(String participantId);
 }
