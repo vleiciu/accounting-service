@@ -13,8 +13,8 @@ import com.org.ma.utils.Constants;
 import lombok.AllArgsConstructor;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -32,7 +32,7 @@ public class MessageHandler implements Processor {
 
     private TransactionService transactionService;
 
-    private KafkaProducer<String, Payment> producer;
+    private KafkaTemplate<String, String> producer;
 
     @Override
     public void process(Exchange exchange) {
@@ -56,7 +56,7 @@ public class MessageHandler implements Processor {
                 .build();
         transaction.setTransactionId(UUID.fromString(transaction.toString()).toString());
         boolean successfulTransaction = processPayment(transaction);
-        ProducerRecord<String, Payment> record = new ProducerRecord<>(Constants.ORDER_CHANNEL, Constants.MESSAGE, payment);
+        ProducerRecord<String, String> record = new ProducerRecord<>(Constants.ORDER_CHANNEL, payment.toString());
         record.headers().add(SUBJECT, "%s_%s".formatted(Subject.PAYMENT.name(), RESPONSE.name()).getBytes());
         if (successfulTransaction) {
             record.headers().add(MESSAGE_TYPE, MessageType.REGULAR.name().getBytes());
@@ -87,7 +87,7 @@ public class MessageHandler implements Processor {
                 .issuedAt(LocalDateTime.now())
                 .build();
         transaction.setTransactionId(UUID.fromString(transaction.toString()).toString());
-        ProducerRecord<String, Payment> record = new ProducerRecord<>(Constants.ORDER_CHANNEL, Constants.MESSAGE, payment);
+        ProducerRecord<String, String> record = new ProducerRecord<>(Constants.ORDER_CHANNEL, payment.toString());
         record.headers().add(SUBJECT, "%s_%s".formatted(Subject.PAYMENT.name(), RESPONSE.name()).getBytes());
         record.headers().add(MESSAGE_TYPE, MessageType.CANCEL.name().getBytes());
         transactionService.savePayment(transaction);

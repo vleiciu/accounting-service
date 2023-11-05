@@ -15,8 +15,8 @@ public class MessageRouting extends RouteBuilder {
 
     @Override
     public void configure() {
-        from("kafka:%s".formatted(PAYMENT_CHANNEL))
-                .routeId("account-service")
+        from("kafka:%s?brokers=localhost:9092".formatted(PAYMENT_CHANNEL))
+                .routeId("payment-service")
                 .process(messageHandler);
     }
 }
