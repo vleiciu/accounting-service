@@ -1,4 +1,4 @@
-package com.org.accs.AccountingService.enums;
+package com.org.accs.enums;
 
 public enum Result {
     SUCCESS,

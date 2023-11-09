@@ -1,7 +1,7 @@
-package com.org.accs.AccountingService.service;
+package com.org.accs.service;
 
-import com.org.accs.AccountingService.persistance.Transaction;
-import com.org.accs.AccountingService.repository.TransactionRepository;
+import com.org.accs.persistance.Transaction;
+import com.org.accs.repository.TransactionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

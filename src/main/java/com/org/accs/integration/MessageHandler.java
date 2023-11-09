@@ -1,10 +1,10 @@
-package com.org.accs.AccountingService.integration;
+package com.org.accs.integration;
 
-import com.org.accs.AccountingService.enums.Result;
-import com.org.accs.AccountingService.persistance.Participant;
-import com.org.accs.AccountingService.persistance.Transaction;
-import com.org.accs.AccountingService.service.ParticipantService;
-import com.org.accs.AccountingService.service.TransactionService;
+import com.org.accs.enums.Result;
+import com.org.accs.persistance.Participant;
+import com.org.accs.persistance.Transaction;
+import com.org.accs.service.ParticipantService;
+import com.org.accs.service.TransactionService;
 import com.org.ma.enums.MessageType;
 import com.org.ma.enums.Subject;
 import com.org.ma.model.Payment;

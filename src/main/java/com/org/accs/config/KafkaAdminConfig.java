@@ -1,4 +1,4 @@
-package com.org.accs.AccountingService.config;
+package com.org.accs.config;
 
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.springframework.beans.factory.annotation.Value;

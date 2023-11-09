@@ -1,6 +1,6 @@
-package com.org.accs.AccountingService.messaging;
+package com.org.accs.messaging;
 
-import com.org.accs.AccountingService.integration.MessageHandler;
+import com.org.accs.integration.MessageHandler;
 import lombok.AllArgsConstructor;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;

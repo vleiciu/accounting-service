@@ -1,4 +1,4 @@
-package com.org.accs.AccountingService.config;
+package com.org.accs.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.springframework.beans.factory.annotation.Value;

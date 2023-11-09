@@ -1,6 +1,6 @@
-package com.org.accs.AccountingService.repository;
+package com.org.accs.repository;
 
-import com.org.accs.AccountingService.persistance.Transaction;
+import com.org.accs.persistance.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

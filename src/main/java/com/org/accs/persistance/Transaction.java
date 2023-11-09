@@ -1,6 +1,6 @@
-package com.org.accs.AccountingService.persistance;
+package com.org.accs.persistance;
 
-import com.org.accs.AccountingService.enums.Result;
+import com.org.accs.enums.Result;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
